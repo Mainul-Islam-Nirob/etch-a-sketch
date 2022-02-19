@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- <div id="main-container"> -->
+    <div id="controller">
+      <h1 class="title">Etch A Sketch</h1>
+
+      <p id="pen-container" class="color-picker-container">
+        <input
+          type="color"
+          name="pen-color"
+          class="color-picker"
+          id="pen-color"
+        />
+       <span id="pen-text">Pen Color</span>
+      </p>
+      <p id="bg-container" class="color-picker-container last-picker">
+        <input
+          type="color"
+          name="bg-color"
+          class="color-picker"
+          id="bg-color"
+        />
+        <span id="board-text">Board Color</span>
+      </p>
+      <input type="button" id="eraser" value="Eraser" />
+      <input type="button" id="rainbow" value="Rainbow" />
+      <input type="button" id="black" value="Black" />
+      <input type="button" id="gray" value="gray" />
+      <input type="button" id="clear-grid" value="clear grid lines" />
+      <input type="button" id="clear" value="clear" />
+
+      <div class="range">
+        <input
+          type="range"
+          min="2"
+          max="64"
+          step="1"
+          value="16"
+          name="grid-range"
+          id="grid-range"
+        />
+        <p>
+          Grid Size : <span class="grid-size">16</span> x
+          <span class="grid-size">16</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- </div> -->
+
+    <div id="container"></div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
