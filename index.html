@@ -4,11 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Etch A Sketch</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- <div id="main-container"> -->
     <div id="controller">
       <h1 class="title">Etch A Sketch</h1>
 
@@ -17,7 +16,8 @@
           type="color"
           name="pen-color"
           class="color-picker"
-          id="pen-color"
+          id="pen-color-picker"
+          value="#f97316"
         />
        <span id="pen-text">Pen Color</span>
       </p>
@@ -26,7 +26,8 @@
           type="color"
           name="bg-color"
           class="color-picker"
-          id="bg-color"
+          id="bg-color-picker"
+          value="#e2e8f0"
         />
         <span id="board-text">Board Color</span>
       </p>
@@ -34,7 +35,8 @@
       <input type="button" class="btn" id="rainbow" value="Rainbow" />
       <input type="button" class="btn" id="black" value="Black" />
       <input type="button" class="btn" id="gray" value="gray" />
-      <input type="button" class="btn" id="clear-grid" value="Grid Lines" />
+      <input type="button" class="btn" id="grid" value="Grid Lines" />
+      <input type="button" class="btn" id="circle-grid" value="Grid Circle" />
       <input type="button" class="btn" id="clear" value="clear" />
 
       <div class="range">
@@ -47,16 +49,11 @@
           name="grid-range"
           id="grid-range"
         />
-        <p>
-          Grid : <span class="grid-size">16</span> x
-          <span class="grid-size">16</span>
-        </p>
+        <p id="gridSize" class="grid-size">16 x 16</p>
       </div>
     </div>
 
-    <!-- </div> -->
-
-    <div id="container"></div>
+    <div class="disable-select" id="container"></div>
 
     <script src="index.js"></script>
   </body>

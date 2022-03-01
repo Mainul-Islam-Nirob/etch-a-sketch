@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400&display=swap');
 
-:root {
-    --grid-cols: 1;
-    --grid-rows: 1;
-}
-
 body {
     font-family: 'Orbitron',
     sans-serif;
@@ -38,12 +33,9 @@ body {
 
 #container {
     display: grid;
-    grid-template-rows: repeat(var(--grid-rows), 1fr);
-    grid-template-columns: repeat(var(--grid-cols), 1fr);
     width: 90vh;
     height: 90vh;
     background-color: #fff;
-    /* box-shadow: rgba(38, 103, 207, 0.582) 0px 22px 70px 4px; */
     box-shadow: rgba(38, 103, 207, 0.582) 0px 4px 16px,
     rgba(38, 103, 207, 0.582) 0px 8px 32px;
     border: 20px solid #395B64;
@@ -51,22 +43,18 @@ body {
     margin: 15px;
 }
 
-
 .grid-item {
     text-align: center;
 }
 
-
 #controller {
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    padding: 20px 30px 30px 30px;
     background-color: #395B64;
-    margin: 50px;
-    /* height: 350px; */
-    /* font-size: 30px; */
+    margin: 40px;
     width: 200px;
-    height: 600px;
+    height: 620px;
     align-self: center;
     border-radius: 10px;
 }
@@ -87,13 +75,17 @@ input[type="button"]:hover {
     color: #fff;
 }
 
+.active {
+    background-color: #2666CF !important;
+    color: #fff !important;
+}
+
 .color-picker-container {
     font-size: 20px;
     color: #2666CF;
     font-weight: bold;
     display: flex;
     align-items: center;
-    /* justify-content: center; */
     margin: 5px 0;
 }
 
@@ -101,24 +93,23 @@ input[type="button"]:hover {
     margin-bottom: 20px;
 }
 
-
-.color-picker {
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    border: none;
-    outline: none;
+input[type='color'] {
     -webkit-appearance: none;
+    width: 40px;
+    height: 40px;
+    border: none;
     margin-right: 10px;
+    background-color: transparent;
+
 }
 
-.color-picker::-webkit-color-swatch-wrapper {
+input[type='color']::-webkit-color-swatch-wrapper {
     padding: 0;
 }
 
-.color-picker::-webkit-color-swatch {
+input[type='color']::-webkit-color-swatch {
     border: none;
-    border-radius: 50%;
+    border-radius: 50px;
 }
 
 .range {
@@ -149,8 +140,21 @@ input[type="button"]:hover {
 
 }
 
-.btn-on {
-    background-color: #2666CF !important;
-    /* background-color: red; */
-    color: #fff !important;
+.border-circle {
+    border-radius: 50%;
+
+}
+
+
+.disable-select {
+    user-select: none;
+    /* supported by Chrome and Opera */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
 }

@@ -1,223 +1,160 @@
-const container = document.getElementById("container");
+const initialColor = '#f97316';
+const initialMode = 'color-picker';
+const initialSize = 16;
+
+let currentColor = initialColor;
+let currentMode = initialMode;
+let currentSize = initialSize;
+
+let container = document.getElementById("container");
+let bgColorPicker = document.getElementById("bg-color-picker");
+let penColorPicker = document.getElementById("pen-color-picker");
+let sizeRange = document.getElementById("grid-range");
+let grayBtn = document.getElementById("gray");
+let blackBtn = document.getElementById("black");
+let rainbowBtn = document.getElementById("rainbow");
+let eraserBtn = document.getElementById("eraser");
+let clearBtn = document.getElementById("clear");
+let gridLineBtn = document.getElementById("grid");
+let gridCircleBtn = document.getElementById("circle-grid");
+let gridSize = document.getElementById('gridSize');
+
+
+function setCurrentColor(newColor) {
+    currentColor = newColor;
+}
+
+function setCurrentMode(newMode) {
+    activeButton(newMode);
+    currentMode = newMode;
+}
+
+function setCurrentSize(newSize) {
+    currentSize = newSize;
+}
+
+rainbowBtn.onclick = () => setCurrentMode('rainbow');
+blackBtn.onclick = () => setCurrentMode('black');
+grayBtn.onclick = () => setCurrentMode('gray');
+eraserBtn.onclick = () => setCurrentMode('eraser');
+clearBtn.onclick = () => resetGrid();
+sizeRange.onmousemove = (e) => updateGridSize(e.target.value);
+sizeRange.onchange = (e) => changeSize(e.target.value);
+gridLineBtn.onclick = (e) => toggleGridLine(e);
+gridCircleBtn.onclick = (e) => toggleGridCircle(e);
+
+penColorPicker.onchange = (e) => {
+    console.log(e.target.value);
+    setCurrentColor(e.target.value);
+    setCurrentMode('color-picker');
+}
+
+bgColorPicker.onchange = (e) => {
+    container.style.background = e.target.value;
+}
+
+
 let isDrawing = false;
-
-console.log(isDrawing, "drawing");
-
-container.addEventListener("mousedown", () =>{
-    isDrawing = true
-    console.log("mousedown");
-})
-container.addEventListener("mouseup", () => {
-    isDrawing = false
-    console.log("mouseup");
-})
-container.addEventListener("mouseleave", () => {
-    isDrawing = false
-    console.log("mouseLeave");
-})
-
-console.log(isDrawing);
-
-function makeRows(rows, cols) {
-    container.style.setProperty('--grid-rows', rows);
-    container.style.setProperty('--grid-cols', cols);
-    for (c = 0; c < (rows * cols); c++) {
-        let cell = document.createElement("div");
-        cell.setAttribute('draggable', 'false');
-        container.appendChild(cell).className = "grid-item";
-    };
-};
+container.onmousedown = () => (isDrawing = true);
+container.onmouseup = () => (isDrawing = false);
+container.onmouseleave = () => (isDrawing = false);
 
 
-makeRows(16, 16)
-
-function reSet() {
-    const boxes = container.querySelectorAll(".grid-item");
-    boxes.forEach(box => box.remove());
+function toggleGridLine(e) {
+    const boxes = container.querySelectorAll("div");
+    boxes.forEach(box => {
+        box.classList.toggle("border");
+    })
+    e.target.classList.toggle('active');
 }
 
-function reSize() {
-    let range = document.getElementById("grid-range");
-    range.addEventListener("input", (e) => {
-
-        let size = e.target.value
-        let gridSizeContainer = document.getElementsByClassName("grid-size");
-
-        gridSizeContainer[0].innerText = size
-        gridSizeContainer[1].innerText = size
-
-        reSet()
-        makeRows(size, size);
-        grayColor()
-        blackColor()
-        rainbow()
-        eraser()
-        penColor()
-        clear()
-        clearGridLine()
-        bgColor()
-
+function toggleGridCircle(e) {
+    const boxes = container.querySelectorAll("div");
+    boxes.forEach(box => {
+        box.classList.toggle("border-circle");
     })
 
-}
-
-
-reSize();
-
-
-function grayColor() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let grayBtn = document.getElementById("gray");
-
-    grayBtn.addEventListener('click', () => {
-
-        grayBtn.classList.toggle('btn-on');
-
-        boxes.forEach( box => box.addEventListener('mouseover', () => {
-            let randomNum = Math.floor(Math.random() * 255);
-            if (isDrawing) {
-            box.style.background = `rgb(${randomNum}, ${randomNum}, ${randomNum})`
-            }
-        }))
-        
-    })
+    e.target.classList.toggle('active');
 
 }
 
-grayColor()
+function changeSize(value) {
+    setCurrentSize(value);
+    updateGridSize(value);
+    resetGrid();
+}
 
-function blackColor() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let blackBtn = document.getElementById("black");
-    blackBtn.addEventListener('click', () => {
-        blackBtn.classList.toggle('btn-on');
+function updateGridSize(value) {
+    gridSize.innerHTML = `${value} x ${value}`;
+}
 
-        boxes.forEach(box => box.addEventListener('mouseover', () => {
-            
-            console.log(isDrawing);
-            if(isDrawing){
-                 box.style.background = "black";
-            }
+function resetGrid() {
+    clearGrid();
+    setupGrid(currentSize);
+}
 
-        }))
-
-    })
+function clearGrid() {
+    container.innerHTML = '';
+    gridCircleBtn.classList.remove("active");
+    gridLineBtn.classList.remove("active");
 
 }
 
-blackColor()
+function setupGrid(size) {
+    container.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    container.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-
-function rainbow() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let rainbowBtn = document.getElementById("rainbow");
-    rainbowBtn.addEventListener('click', () => {
-        rainbowBtn.classList.toggle('btn-on');
-
-        boxes.forEach(box => box.addEventListener('mouseover', () => {
-
-            let r = Math.floor(Math.random() * 255);
-            let g = Math.floor(Math.random() * 255);
-            let b = Math.floor(Math.random() * 255);
-            if (isDrawing) {
-            box.style.background = `rgb(${r}, ${g}, ${b})`
-            }
-        }))
-
-    })
-
+    for (let i = 0; i < size * size; i++) {
+        const gridItem = document.createElement('div');
+        gridItem.addEventListener('mouseover', changeColor);
+        gridItem.addEventListener('mousedown', changeColor);
+        container.appendChild(gridItem);
+    }
 }
 
-rainbow()
-
-
-function penColor() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let penBtn = document.getElementById("pen-color");
-    let penContainer = document.getElementById("pen-container");
-    let bgContainer = document.getElementById("bg-container");
-
-    penBtn.addEventListener('change', (e) => {
-        let color = e.target.value;
-        penContainer.style.color = color;
-        bgContainer.style.color = color;
-
-        boxes.forEach(box => box.addEventListener('mouseover', () => {
-            if (isDrawing) {
-            box.style.background = color;
-            }
-        }))
-
-    })
-
+function changeColor(e) {
+    if (e.type === 'mouseover' && !isDrawing) return;
+    if (currentMode === 'rainbow') {
+        const R = Math.floor(Math.random() * 256);
+        const G = Math.floor(Math.random() * 256);
+        const B = Math.floor(Math.random() * 256);
+        e.target.style.backgroundColor = `rgb(${R}, ${G}, ${B})`;
+    }else if (currentMode === 'gray') {
+        const randomNum = Math.floor(Math.random() * 255);
+        e.target.style.backgroundColor = `rgb(${randomNum}, ${randomNum}, ${randomNum})`;
+    }
+     else if (currentMode === 'color-picker') {
+        e.target.style.backgroundColor = currentColor;
+    } else if (currentMode === 'black') {
+        e.target.style.backgroundColor = "#000";
+    }
+     else if (currentMode === 'eraser') {
+        e.target.style.backgroundColor = 'transparent';
+    }
 }
 
-penColor()
+function activeButton(newMode) {
+    if (currentMode === 'rainbow') {
+        rainbowBtn.classList.remove('active');
+    }else if (currentMode === 'black') {
+        blackBtn.classList.remove('active');
+    } else if (currentMode === 'gray') {
+        grayBtn.classList.remove('active');
+    } else if (currentMode === 'eraser') {
+        eraserBtn.classList.remove('active');
+    } 
 
-function bgColor() {
-    const boxes = document.getElementById("container")
-    let bgBtn = document.getElementById("bg-color");
-    let bgText = document.getElementById("board-text");
-    let penText = document.getElementById("pen-text");
-
-    bgBtn.addEventListener('change', (e) => {
-            let color = e.target.value;
-            container.style.background = color;
-        bgText.style.background = color;
-        penText.style.background = color;
-
-    })
-
+    if (newMode === 'rainbow') {
+        rainbowBtn.classList.add('active')
+    }else if (newMode === 'black') {
+        blackBtn.classList.add('active')
+    } else if (newMode === 'gray') {
+        grayBtn.classList.add('active')
+    } else if (newMode === 'eraser') {
+        eraserBtn.classList.add('active')
+    }  
 }
 
-bgColor()
-
-
-
-function eraser() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let eraserBtn = document.getElementById("eraser");
-    eraserBtn.addEventListener('click', () => {
-        boxes.forEach(box => box.addEventListener('mouseover', () => {
-            if (isDrawing) {
-            box.style.background = "#fff"
-            }
-        }))
-
-    })
-
+window.onload = () => {
+    setupGrid(initialSize)
 }
-
-eraser()
-
-
-function clear() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let clearBtn = document.getElementById("clear");
-    clearBtn.addEventListener('click', () => {
-        boxes.forEach(box => {
-            box.style.background = "#fff"
-
-        })
-
-    })
-
-}
-
-clear()
-
-
-function clearGridLine() {
-    const boxes = container.querySelectorAll(".grid-item")
-    let clearGridBtn = document.getElementById("clear-grid");
-    clearGridBtn.addEventListener('click', () => {
-        boxes.forEach(box => {
-            box.classList.toggle("border");
-
-        })
-
-    })
-
-}
-
-clearGridLine()
