@@ -22,10 +22,10 @@ The final output:
 ![Desktop-view](./final-look.png)
 
 ### Links
-Live Site URL: [Live site of the challenge hosted here](#)
+Live Site URL: [Live site of the challenge hosted here](https://mainul-islam-nirob.github.io/etch-a-sketch/)
 
 ## My process
-Hello, this is my 4th project here in The Odin Project. It's a browser version of something between a sketchpad and an Etch-A-Sketch. It was a little challenging at first but finally I made it. At first the cod was messy later I have refactored the code and reduced redundancy.
+Hello, this is my 4th project here in The Odin Project. It's a browser version of something between a sketchpad and an Etch-A-Sketch. It was a little challenging at first but finally I made it. At first the code was messy later I have refactored the code and reduced redundancy.
 
 ### Built with
 - HTML5
